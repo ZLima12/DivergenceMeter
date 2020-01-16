@@ -14,7 +14,7 @@ void pulseLatch()
 
 void meterDisplay(uint32_t num)
 {
-	uint8_t* bytes = meterFormat(time);
+	uint8_t* bytes = meterFormat(num);
 
 	for (size_t i = 0; i < 4; i++)
 	{
