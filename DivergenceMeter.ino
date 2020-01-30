@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "nixieUtil.hpp"
+#include "Format.hpp"
 
 constexpr uint8_t serial = 3;
 constexpr uint8_t clock = 4;
@@ -14,7 +14,7 @@ void pulseLatch()
 
 void meterDisplay(uint32_t num)
 {
-	uint8_t* bytes = meterFormat(num);
+	uint8_t* bytes = DivergenceMeter::Format::number(num);
 
 	for (size_t i = 0; i < 4; i++)
 	{
