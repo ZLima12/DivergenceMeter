@@ -67,13 +67,14 @@ namespace DivergenceMeter
 
 		uint8_t* time(DivergenceMeter::Time time)
 		{
-			uint32_t format =
-				uint32_t(0) << 24 |
-				static_cast<uint32_t>(time.get_hours()) << 16 |
-				static_cast<uint32_t>(time.get_minutes()) << 8 |
-				static_cast<uint32_t>(time.get_seconds());
-	
-			return Format::number(format);
+			uint8_t* format = (uint8_t*)malloc(4);
+
+			format[0] = 0xFF;
+			format[1] = time.get_hours();
+			format[2] = time.get_minutes();
+			format[3] = time.get_seconds();
+
+			return format;
 		}
 	}
 }
