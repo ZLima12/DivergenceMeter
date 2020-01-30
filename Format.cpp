@@ -1,5 +1,6 @@
 #include "Format.hpp"
 #include "Math.hpp"
+#include "Time.hpp"
 #include <stdint.h>
 #include <stdlib.h> // malloc, free
 
@@ -62,6 +63,17 @@ namespace DivergenceMeter
 			free(arr);
 		
 			return format;
+		}
+
+		uint8_t* time(DivergenceMeter::Time time)
+		{
+			uint32_t format =
+				uint32_t(0) << 24 |
+				static_cast<uint32_t>(time.get_hours()) << 16 |
+				static_cast<uint32_t>(time.get_minutes()) << 8 |
+				static_cast<uint32_t>(time.get_seconds());
+	
+			return Format::number(format);
 		}
 	}
 }

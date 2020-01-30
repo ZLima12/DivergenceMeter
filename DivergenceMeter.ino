@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "Format.hpp"
+#include "Time.hpp"
 
 constexpr uint8_t serial = 3;
 constexpr uint8_t clock = 4;
@@ -12,10 +13,8 @@ void pulseLatch()
 	digitalWrite(latch, LOW);
 }
 
-void meterDisplay(uint32_t num)
+void shiftOutFormatted(uint8_t* bytes)
 {
-	uint8_t* bytes = DivergenceMeter::Format::number(num);
-
 	for (size_t i = 0; i < 4; i++)
 	{
 		shiftOut(serial, clock, MSBFIRST, bytes[i]);
@@ -24,6 +23,18 @@ void meterDisplay(uint32_t num)
 	free(bytes);
 
 	pulseLatch();
+}
+
+void meterDisplay(uint32_t num)
+{
+	uint8_t* bytes = DivergenceMeter::Format::number(num);
+	shiftOutFormatted(bytes);
+}
+
+void meterDisplay(DivergenceMeter::Time time)
+{
+	uint8_t* bytes = DivergenceMeter::Format::time(time);
+	shiftOutFormatted(bytes);
 }
 
 void setup()
@@ -35,12 +46,12 @@ void setup()
 	digitalWrite(latch, LOW);
 }
 
-uint32_t time = 0;
+DivergenceMeter::Time time;
 
 void loop()
 {
 	meterDisplay(time);
-	time++;
+	time.add_1s();
 	delay(1000);
 }
 
