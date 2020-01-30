@@ -7,6 +7,15 @@ namespace DivergenceMeter
 {
 	namespace Shift
 	{
+		void initialize(const Pins& pins)
+		{
+			pinMode(pins.serial, OUTPUT);
+			pinMode(pins.clock, OUTPUT);
+			pinMode(pins.latch, OUTPUT);
+
+			digitalWrite(pins.latch, LOW);
+		}
+
 		void pulse_latch(const uint_fast8_t& pin)
 		{
 			digitalWrite(pin, HIGH);

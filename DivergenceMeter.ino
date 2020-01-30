@@ -10,11 +10,7 @@ constexpr DivergenceMeter::Shift::Pins pins = {
 
 void setup()
 {
-	pinMode(pins.serial, OUTPUT);
-	pinMode(pins.clock, OUTPUT);
-	pinMode(pins.latch, OUTPUT);
-
-	digitalWrite(pins.latch, LOW);
+	DivergenceMeter::Shift::initialize(pins);
 }
 
 DivergenceMeter::Time time(12, 34, 56);

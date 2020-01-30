@@ -15,6 +15,8 @@ namespace DivergenceMeter
 			uint_fast8_t latch;
 		} Pins;
 
+		void initialize(const Pins& pins);
+
 		void pulse_latch(const uint_fast8_t& latchPin);
 		void pulse_latch(const Pins& pins);
 
