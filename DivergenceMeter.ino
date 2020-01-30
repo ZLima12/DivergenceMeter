@@ -46,7 +46,7 @@ void setup()
 	digitalWrite(latch, LOW);
 }
 
-DivergenceMeter::Time time;
+DivergenceMeter::Time time(12, 34, 56);
 
 void loop()
 {
