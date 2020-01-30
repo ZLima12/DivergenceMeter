@@ -19,7 +19,7 @@ namespace DivergenceMeter
 
 	static bool increment_limit(uint_fast8_t& ref, uint_fast8_t limit)
 	{
-		if (ref == limit)
+		if (ref + 1 == limit)
 		{
 			ref = 0;
 			return true;
