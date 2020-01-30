@@ -67,12 +67,20 @@ namespace DivergenceMeter
 
 		uint8_t* time(DivergenceMeter::Time time)
 		{
+			uint8_t* hours = splitNum(time.get_hours(), 2);
+			uint8_t* minutes = splitNum(time.get_minutes(), 2);
+			uint8_t* seconds = splitNum(time.get_seconds(), 2);
+
 			uint8_t* format = (uint8_t*)malloc(4);
 
-			format[0] = 0xFF;
-			format[1] = time.get_hours();
-			format[2] = time.get_minutes();
-			format[3] = time.get_seconds();
+			format[0] = 0x00;
+			format[1] = Format::nixiePair(hours[0], hours[1]);
+			format[2] = Format::nixiePair(minutes[0], minutes[1]);
+			format[3] = Format::nixiePair(seconds[0], seconds[1]);
+
+			free(hours);
+			free(minutes);
+			free(seconds);
 
 			return format;
 		}
