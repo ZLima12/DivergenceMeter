@@ -47,36 +47,45 @@ namespace DivergenceMeter
 			return (l << 4) | r;
 		}
 		
-		uint8_t* number(uint32_t num)
+		Format::EightDigits number(uint32_t num)
 		{
 			uint8_t* arr = splitNum(num, 8);
 		
-			if (arr == nullptr) return nullptr;
+			if (arr == nullptr) return 0;
 		
-			uint8_t* format = (uint8_t*)malloc(4);
+			Format::EightDigits format;
+
+			uint8_t* format_ptr = (uint8_t*)(&format);
 		
-			format[0] = Format::nixiePair(arr[0], arr[1]);
-			format[1] = Format::nixiePair(arr[2], arr[3]);
-			format[2] = Format::nixiePair(arr[4], arr[5]);
-			format[3] = Format::nixiePair(arr[6], arr[7]);
+			format_ptr[0] = Format::nixiePair(arr[0], arr[1]);
+			format_ptr[1] = Format::nixiePair(arr[2], arr[3]);
+			format_ptr[2] = Format::nixiePair(arr[4], arr[5]);
+			format_ptr[3] = Format::nixiePair(arr[6], arr[7]);
 	
 			free(arr);
 		
 			return format;
 		}
 
-		uint8_t* time(DivergenceMeter::Time time)
+		Format::EightDigits time(DivergenceMeter::Time time)
 		{
 			uint8_t* hours = splitNum(time.get_hours(), 2);
 			uint8_t* minutes = splitNum(time.get_minutes(), 2);
 			uint8_t* seconds = splitNum(time.get_seconds(), 2);
 
-			uint8_t* format = (uint8_t*)malloc(4);
+			if (hours == nullptr || minutes == nullptr || seconds == nullptr)
+			{
+				return 0;
+			}
 
-			format[0] = 0x00;
-			format[1] = Format::nixiePair(hours[0], hours[1]);
-			format[2] = Format::nixiePair(minutes[0], minutes[1]);
-			format[3] = Format::nixiePair(seconds[0], seconds[1]);
+			Format::EightDigits format;
+
+			uint8_t* format_ptr = (uint8_t*)(&format);
+
+			format_ptr[0] = 0x00;
+			format_ptr[1] = Format::nixiePair(hours[0], hours[1]);
+			format_ptr[2] = Format::nixiePair(minutes[0], minutes[1]);
+			format_ptr[3] = Format::nixiePair(seconds[0], seconds[1]);
 
 			free(hours);
 			free(minutes);
